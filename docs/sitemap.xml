@@ -2,42 +2,66 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/index.html</loc>
-		<lastmod>2026-01-10T11:54:39.015Z</lastmod>
+		<lastmod>2026-05-20T10:48:23.173Z</lastmod>
 	</url>
 	<url>
 		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/modules.html</loc>
-		<lastmod>2026-01-10T11:54:39.015Z</lastmod>
+		<lastmod>2026-05-20T10:48:23.173Z</lastmod>
 	</url>
 	<url>
 		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/hierarchy.html</loc>
-		<lastmod>2026-01-10T11:54:39.015Z</lastmod>
+		<lastmod>2026-05-20T10:48:23.173Z</lastmod>
 	</url>
 	<url>
-		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/documents/AwsSecretsManagerTools.html</loc>
-		<lastmod>2026-01-10T11:54:39.015Z</lastmod>
+		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/documents/AwsApiGatewayTools.html</loc>
+		<lastmod>2026-05-20T10:48:23.173Z</lastmod>
 	</url>
 	<url>
 		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/documents/get-dotenv_plugin.html</loc>
-		<lastmod>2026-01-10T11:54:39.015Z</lastmod>
+		<lastmod>2026-05-20T10:48:23.173Z</lastmod>
 	</url>
 	<url>
 		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/documents/CHANGELOG.html</loc>
-		<lastmod>2026-01-10T11:54:39.015Z</lastmod>
+		<lastmod>2026-05-20T10:48:23.173Z</lastmod>
 	</url>
 	<url>
 		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/modules/index.html</loc>
-		<lastmod>2026-01-10T11:54:39.015Z</lastmod>
+		<lastmod>2026-05-20T10:48:23.173Z</lastmod>
 	</url>
 	<url>
-		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/classes/index.AwsSecretsManagerTools.html</loc>
-		<lastmod>2026-01-10T11:54:39.015Z</lastmod>
+		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/classes/index.AwsApiGatewayTools.html</loc>
+		<lastmod>2026-05-20T10:48:23.173Z</lastmod>
 	</url>
 	<url>
-		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/types/index.AwsSecretsManagerToolsOptions.html</loc>
-		<lastmod>2026-01-10T11:54:39.015Z</lastmod>
+		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/types/index.ApiGatewayPluginConfig.html</loc>
+		<lastmod>2026-05-20T10:48:23.173Z</lastmod>
 	</url>
 	<url>
-		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/functions/index.secretsPlugin.html</loc>
-		<lastmod>2026-01-10T11:54:39.015Z</lastmod>
+		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/types/index.ApiGatewayPort.html</loc>
+		<lastmod>2026-05-20T10:48:23.173Z</lastmod>
+	</url>
+	<url>
+		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/types/index.ApiKeySummary.html</loc>
+		<lastmod>2026-05-20T10:48:23.173Z</lastmod>
+	</url>
+	<url>
+		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/types/index.AwsApiGatewayToolsOptions.html</loc>
+		<lastmod>2026-05-20T10:48:23.173Z</lastmod>
+	</url>
+	<url>
+		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/types/index.FlushStageCacheByNameResult.html</loc>
+		<lastmod>2026-05-20T10:48:23.173Z</lastmod>
+	</url>
+	<url>
+		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/types/index.RestApiSummary.html</loc>
+		<lastmod>2026-05-20T10:48:23.173Z</lastmod>
+	</url>
+	<url>
+		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/variables/index.apiGatewayPluginConfigSchema.html</loc>
+		<lastmod>2026-05-20T10:48:23.173Z</lastmod>
+	</url>
+	<url>
+		<loc>https://docs.karmanivero.us/aws-api-gateway-tools/functions/index.apiGatewayPlugin.html</loc>
+		<lastmod>2026-05-20T10:48:23.173Z</lastmod>
 	</url>
 </urlset>
