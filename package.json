@@ -15,7 +15,7 @@
   "dependencies": {
     "@aws-sdk/client-api-gateway": "^3.965.0",
     "@karmaniverous/aws-xray-tools": "^0.2.0",
-    "@karmaniverous/get-dotenv": "^7.0.5"
+    "@karmaniverous/get-dotenv": "^7.0.6"
   },
   "peerDependenciesMeta": {
     "aws-xray-sdk": {
