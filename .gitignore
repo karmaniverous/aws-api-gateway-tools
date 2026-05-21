@@ -17,3 +17,4 @@ context/
 .stan/system/.docs.meta.json
 .stan/system/facet.state.json
 .stan/dist/
+docs/
