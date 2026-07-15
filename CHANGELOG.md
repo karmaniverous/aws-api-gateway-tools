@@ -2,8 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [0.1.3](https://github.com/karmaniverous/aws-api-gateway-tools/compare/0.1.2...0.1.3)
+
+- chore: update dependencies [`#9`](https://github.com/karmaniverous/aws-api-gateway-tools/pull/9)
+- cleanup [`3a2491f`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/3a2491f39fe07e9b5e4c2e14edaaf0945635b73a)
+- chore: add copilot review instructions [`ac96569`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/ac965699c7f0a74bea76d6c72c99a8e6ba814da2)
+
 #### [0.1.2](https://github.com/karmaniverous/aws-api-gateway-tools/compare/0.1.1...0.1.2)
 
+> 21 May 2026
+
+- chore: release v0.1.2 [`25c32b3`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/25c32b3f2eb29ae9bc9e9a0a279beab4101376a5)
 - updated getdotenv [`3c6e6ca`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/3c6e6cacd60c0ee18a14eba062b943ac140f20b8)
 
 #### [0.1.1](https://github.com/karmaniverous/aws-api-gateway-tools/compare/0.1.0...0.1.1)
