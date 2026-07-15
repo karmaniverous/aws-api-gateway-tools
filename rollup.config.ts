@@ -98,7 +98,7 @@ let cliCommands: string[] = [];
 try {
   cliCommands = fs.readdirSync('src/cli');
 } catch {
-  cliCommands = [];
+  // cliCommands remains [] if src/cli is not found
 }
 
 /**
