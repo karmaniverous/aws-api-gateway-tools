@@ -20,11 +20,11 @@ describe('package contract', () => {
     expect(pkg.dependencies).not.toHaveProperty('@karmaniverous/get-dotenv');
     expect(pkg.devDependencies).toHaveProperty(
       '@karmaniverous/get-dotenv',
-      '^8.0.0-0',
+      '^8.0.0',
     );
     expect(pkg.peerDependencies).toHaveProperty(
       '@karmaniverous/get-dotenv',
-      '^8.0.0-0',
+      '^8.0.0',
     );
     expect(pkg.peerDependenciesMeta).toMatchObject({
       '@karmaniverous/get-dotenv': { optional: true },

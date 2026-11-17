@@ -30,7 +30,7 @@ The wrapper exposes `client`, `clientConfig`, `logger`, and `xray`. Convenience 
 Install get-dotenv separately because it is an optional peer:
 
 ```bash
-npm i -D @karmaniverous/get-dotenv@^8.0.0-0
+npm i -D @karmaniverous/get-dotenv@^8.0.0
 ```
 
 Import the plugin and its config schema only from the subpath:

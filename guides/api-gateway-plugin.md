@@ -16,7 +16,7 @@ If you want the programmatic API instead, see the [AwsApiGatewayTools guide](./a
 
 ```bash
 npm i @karmaniverous/aws-api-gateway-tools
-npm i -D @karmaniverous/get-dotenv@^8.0.0-0
+npm i -D @karmaniverous/get-dotenv@^8.0.0
 ```
 
 You can either:

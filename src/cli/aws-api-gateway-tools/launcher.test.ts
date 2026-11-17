@@ -8,10 +8,10 @@ const names = {
 };
 
 const expectedHint = [
-  'aws-api-gateway-tools needs @karmaniverous/get-dotenv ^8.0.0-0. Install it:',
-  '  local:  npm i -D @karmaniverous/get-dotenv@^8.0.0-0',
-  '  global: npm i -g @karmaniverous/get-dotenv@^8.0.0-0',
-  '  npx:    npx -p @karmaniverous/get-dotenv@^8.0.0-0 -p @karmaniverous/aws-api-gateway-tools aws-api-gateway-tools',
+  'aws-api-gateway-tools needs @karmaniverous/get-dotenv ^8.0.0. Install it:',
+  '  local:  npm i -D @karmaniverous/get-dotenv@^8.0.0',
+  '  global: npm i -g @karmaniverous/get-dotenv@^8.0.0',
+  '  npx:    npx -p @karmaniverous/get-dotenv@^8.0.0 -p @karmaniverous/aws-api-gateway-tools aws-api-gateway-tools',
 ].join('\n');
 
 const missingGetDotenv = Object.assign(

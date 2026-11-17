@@ -28,7 +28,7 @@ npm i @karmaniverous/aws-api-gateway-tools
 The library root does not require get-dotenv. To use the plugin or standalone CLI, install the optional peer:
 
 ```bash
-npm i -D @karmaniverous/get-dotenv@^8.0.0-0
+npm i -D @karmaniverous/get-dotenv@^8.0.0
 ```
 
 This package is ESM-only (Node >= 22.12).
