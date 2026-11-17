@@ -14,7 +14,7 @@ If you’re looking for the CLI or plugin behavior instead, see the [aws api-gat
 npm i @karmaniverous/aws-api-gateway-tools
 ```
 
-This package is ESM-only (Node >= 20).
+This package is ESM-only (Node >= 22.12). The package root is independent of the optional get-dotenv peer.
 
 ```ts
 import { AwsApiGatewayTools } from '@karmaniverous/aws-api-gateway-tools';
@@ -42,7 +42,7 @@ const tools = new AwsApiGatewayTools({
 
 - `clientConfig?: APIGatewayClientConfig`
   - Any AWS SDK v3 API Gateway client configuration (region, credentials, retry options, etc.).
-  - If `clientConfig.logger` is provided, it must implement `debug`, `info`, `warn`, and `error` (the unified get-dotenv `Logger` contract). The wrapper validates this contract up front (it does not polyfill missing methods).
+  - If `clientConfig.logger` is provided, it must implement `debug`, `info`, `warn`, and `error` (the package's local `Logger` contract, compatible with AWS SDK v3 and get-dotenv). The wrapper validates this contract up front (it does not polyfill missing methods).
 - `xray?: 'auto' | 'on' | 'off'`
   - `'auto'` (default): enable only when `AWS_XRAY_DAEMON_ADDRESS` is set.
   - `'on'`: force capture (requires `AWS_XRAY_DAEMON_ADDRESS` and `aws-xray-sdk`).

@@ -16,6 +16,7 @@ If you want the programmatic API instead, see the [AwsApiGatewayTools guide](./a
 
 ```bash
 npm i @karmaniverous/aws-api-gateway-tools
+npm i -D @karmaniverous/get-dotenv@^8.0.0
 ```
 
 You can either:
@@ -44,13 +45,16 @@ Mount the plugin under `aws`:
 import { createCli } from '@karmaniverous/get-dotenv/cli';
 import { awsPlugin } from '@karmaniverous/get-dotenv/plugins';
 
-import { apiGatewayPlugin } from '@karmaniverous/aws-api-gateway-tools';
+import { apiGatewayPlugin } from '@karmaniverous/aws-api-gateway-tools/get-dotenv';
 
 await createCli({
   alias: 'toolbox',
+  importMetaUrl: import.meta.url,
   compose: (program) => program.use(awsPlugin().use(apiGatewayPlugin())),
 })();
 ```
+
+The plugin, `apiGatewayPluginConfigSchema`, and `ApiGatewayPluginConfig` moved from the package root to `/get-dotenv` in this breaking package-layout change. The root remains importable when the optional peer is absent.
 
 Region sourcing:
 
@@ -95,4 +99,4 @@ Key behavior:
 ## Related docs
 
 - Package overview: see the [README](../README.md).
-- Programmatic API: see the [AwsApiGatewayTools guide](./aws-api-gateway-tools.md).
+- Programmatic API: see the [AwsApiGatewayTools guide](./aws-api-gateway-tools.md).

@@ -6,8 +6,8 @@
 
 /**
  * Requirements addressed:
- * - Export a public `AwsApiGatewayTools`.
- * - Export the get-dotenv `apiGatewayPlugin` for mounting under `aws`.
+ * - Export a public `AwsApiGatewayTools` without loading get-dotenv.
+ * - Export the local public `Logger` contract.
  */
 
 export type { FlushStageCacheByNameResult } from './apiGateway/AwsApiGatewayTools';
@@ -20,8 +20,4 @@ export type {
   ApiKeySummary,
   RestApiSummary,
 } from './apiGateway/ports/apiGatewayPort';
-export { apiGatewayPlugin } from './apiGatewayPlugin/apiGatewayPlugin';
-export {
-  type ApiGatewayPluginConfig,
-  apiGatewayPluginConfigSchema,
-} from './apiGatewayPlugin/apiGatewayPluginConfig';
+export { assertLogger, type Logger } from './logger';

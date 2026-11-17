@@ -4,7 +4,7 @@
  * - CLI flags override config defaults.
  */
 
-import { z } from '@karmaniverous/get-dotenv/cliHost';
+import { z } from 'zod';
 
 /**
  * Zod schema for the `plugins['aws/api-gateway']` configuration slice.

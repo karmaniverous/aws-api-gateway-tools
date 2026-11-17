@@ -1,28 +1,20 @@
-/**
- * Requirements addressed:
- * - Provide TS smoke-test helpers runnable via tsx.
- * - Keep AWS-dependent smoke tests out of unit tests (no Vitest integration).
- * - Support safe cleanup (fs + config restore) via try/finally patterns.
- * - Keep smoke fixtures committed under smoke/fixtures, and delete generated
- *   artifacts by default.
- */
+/** Shared helpers for the opt-in API Gateway smoke tests. */
 
 import { spawn } from 'node:child_process';
-import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 
 import type { ProcessEnv } from '@karmaniverous/get-dotenv';
 import { getDotenv } from '@karmaniverous/get-dotenv';
+
+const require = createRequire(import.meta.url);
 
 export type RunResult = {
   code: number;
   stdout: string;
   stderr: string;
 };
-
-export const delay = (ms: number): Promise<void> =>
-  new Promise((r) => setTimeout(r, ms));
 
 export const fileExists = async (p: string): Promise<boolean> => {
   try {
@@ -43,11 +35,6 @@ export const rmrf = async (p: string): Promise<void> => {
 
 export const readText = async (p: string): Promise<string> =>
   await fs.readFile(p, 'utf8');
-
-export const writeText = async (p: string, content: string): Promise<void> => {
-  await mkdirp(path.dirname(p));
-  await fs.writeFile(p, content, 'utf8');
-};
 
 export const assert = (cond: unknown, msg: string): void => {
   if (!cond) throw new Error(msg);
@@ -73,36 +60,21 @@ export const findRepoRoot = async (startDir: string): Promise<string> => {
   throw new Error(`Could not find repo root from ${startDir}`);
 };
 
-export const resolveBin = async (
-  repoRoot: string,
-  name: string,
-): Promise<string> => {
-  const bin = process.platform === 'win32' ? `${name}.cmd` : name;
-  const p = path.resolve(repoRoot, 'node_modules', '.bin', bin);
-  if (!(await fileExists(p))) {
-    throw new Error(`Missing ${name} binary at ${p}; run npm i first.`);
-  }
-  return p;
-};
-
 export const runProcess = async ({
   cwd,
   cmd,
   args,
   env,
-  shell,
 }: {
   cwd: string;
   cmd: string;
   args: string[];
   env?: NodeJS.ProcessEnv;
-  shell?: boolean;
 }): Promise<RunResult> =>
   await new Promise((resolve) => {
     const child = spawn(cmd, args, {
       cwd,
       env,
-      shell,
       stdio: ['ignore', 'pipe', 'pipe'],
     });
 
@@ -169,23 +141,15 @@ export const runAwsApiGatewayToolsCli = async ({
 
   return await runProcess({
     cwd: repoRoot,
-    // Use npx to invoke local tsx in a way that doesn't depend on tsx package
-    // subpath exports (which can break require.resolve for dist/cli.*).
-    //
-    // On Windows, `npx` is `npx.cmd` and must be executed via a shell.
-    cmd: 'npx',
-    args: ['--no-install', 'tsx', entry, ...argv],
-    shell: process.platform === 'win32',
+    // Invoke Node with tsx's public CLI export. This avoids shell interpolation
+    // and works consistently across Windows and POSIX.
+    cmd: process.execPath,
+    args: [require.resolve('tsx/cli'), entry, ...argv],
     env: toChildProcessEnv({
       base: { ...process.env, NO_COLOR: '1' },
       extra: env,
     }),
   });
-};
-
-export const makeSecretId = (): string => {
-  const suffix = crypto.randomUUID();
-  return `aws-api-gateway-tools/smoke/${String(Date.now())}-${suffix}`;
 };
 
 export const shouldRunApiGatewaySmoke = (smokeEnv: ProcessEnv): boolean =>
@@ -212,26 +176,6 @@ export const getAwsApiGatewayFixturePaths = ({
   const localAbs = path.join(dirAbs, '.env.local');
   return { envAbs, templateAbs, localAbs };
 };
-
-const parseDotenvText = (text: string): Record<string, string> => {
-  const out: Record<string, string> = {};
-  for (const rawLine of text.split('\n')) {
-    const line = rawLine.trim();
-    if (!line) continue;
-    if (line.startsWith('#')) continue;
-    const i = line.indexOf('=');
-    if (i <= 0) continue;
-    const k = line.slice(0, i).trim();
-    const v = line.slice(i + 1);
-    if (!k) continue;
-    out[k] = v;
-  }
-  return out;
-};
-
-export const readDotenvFileMap = async (
-  p: string,
-): Promise<Record<string, string>> => parseDotenvText(await readText(p));
 
 export const assertSmokeFixturesPresent = async ({
   repoRoot,
@@ -283,15 +227,6 @@ export const expectCommandOk = (res: RunResult, label: string): void => {
   if (res.code === 0) return;
   throw new Error(
     `${label} failed with code ${String(res.code)}\n` +
-      `--- stdout ---\n${res.stdout}\n` +
-      `--- stderr ---\n${res.stderr}\n`,
-  );
-};
-
-export const expectCommandFail = (res: RunResult, label: string): void => {
-  if (res.code !== 0) return;
-  throw new Error(
-    `${label} unexpectedly succeeded\n` +
       `--- stdout ---\n${res.stdout}\n` +
       `--- stderr ---\n${res.stderr}\n`,
   );
