@@ -23,8 +23,8 @@ import {
   type XrayMode,
   type XrayState,
 } from '@karmaniverous/aws-xray-tools';
-import { assertLogger, type Logger } from '@karmaniverous/get-dotenv';
 
+import { assertLogger, type Logger } from '../logger';
 import type {
   ApiGatewayPort,
   ApiKeySummary,

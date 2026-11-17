@@ -36,7 +36,12 @@ const main = async (): Promise<void> => {
     return;
   }
 
-  const profile = smokeEnv.SMOKE_AWS_PROFILE ?? 'JGS-SSO';
+  const profile = smokeEnv.SMOKE_AWS_PROFILE;
+  if (!profile) {
+    throw new Error(
+      'SMOKE_AWS_PROFILE is missing; set it in smoke/.env.local.',
+    );
+  }
   const keepArtifacts = shouldKeepArtifacts(smokeEnv);
   const { apiId, apiName, stageName } = getFlushCacheSelector(smokeEnv);
   const keyNames = getApiKeyNames(smokeEnv);

@@ -10,10 +10,13 @@
 import { spawn } from 'node:child_process';
 import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 
 import type { ProcessEnv } from '@karmaniverous/get-dotenv';
 import { getDotenv } from '@karmaniverous/get-dotenv';
+
+const require = createRequire(import.meta.url);
 
 export type RunResult = {
   code: number;
@@ -90,19 +93,16 @@ export const runProcess = async ({
   cmd,
   args,
   env,
-  shell,
 }: {
   cwd: string;
   cmd: string;
   args: string[];
   env?: NodeJS.ProcessEnv;
-  shell?: boolean;
 }): Promise<RunResult> =>
   await new Promise((resolve) => {
     const child = spawn(cmd, args, {
       cwd,
       env,
-      shell,
       stdio: ['ignore', 'pipe', 'pipe'],
     });
 
@@ -169,13 +169,10 @@ export const runAwsApiGatewayToolsCli = async ({
 
   return await runProcess({
     cwd: repoRoot,
-    // Use npx to invoke local tsx in a way that doesn't depend on tsx package
-    // subpath exports (which can break require.resolve for dist/cli.*).
-    //
-    // On Windows, `npx` is `npx.cmd` and must be executed via a shell.
-    cmd: 'npx',
-    args: ['--no-install', 'tsx', entry, ...argv],
-    shell: process.platform === 'win32',
+    // Invoke Node with tsx's public CLI export. This avoids shell interpolation
+    // and works consistently across Windows and POSIX.
+    cmd: process.execPath,
+    args: [require.resolve('tsx/cli'), entry, ...argv],
     env: toChildProcessEnv({
       base: { ...process.env, NO_COLOR: '1' },
       extra: env,

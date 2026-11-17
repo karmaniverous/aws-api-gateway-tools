@@ -9,7 +9,7 @@ This package provides:
 - A tools-style wrapper that owns AWS client setup (including optional AWS X-Ray capture):
   - `AwsApiGatewayTools`
 - A get-dotenv plugin intended to be mounted under `aws`:
-  - `apiGatewayPlugin()` → `aws api-gateway flush-cache|pull-keys`
+  - `apiGatewayPlugin()` from `@karmaniverous/aws-api-gateway-tools/get-dotenv` → `aws api-gateway flush-cache|pull-keys`
 - A CLI embedding get-dotenv with the api-gateway plugin:
   - `aws-api-gateway-tools`
 
@@ -25,7 +25,13 @@ This package provides:
 npm i @karmaniverous/aws-api-gateway-tools
 ```
 
-This package is ESM-only (Node >= 20).
+The library root does not require get-dotenv. To use the plugin or standalone CLI, install the optional peer:
+
+```bash
+npm i -D @karmaniverous/get-dotenv@^8.0.0-0
+```
+
+This package is ESM-only (Node >= 22.12).
 
 ## Quick start (programmatic)
 
@@ -51,7 +57,36 @@ aws-api-gateway-tools aws api-gateway pull-keys --key-names '$API_KEY_A' '$API_K
 
 Notes:
 
+- If get-dotenv is absent, the bin exits 1 and prints local, global, and `npx` installation routes.
 - Relevant flags support `$VAR` expansion evaluated at action time against `{ ...process.env, ...ctx.dotenv }` (`ctx.dotenv` wins).
+
+## Quick start (plugin host)
+
+```ts
+import { createCli } from '@karmaniverous/get-dotenv/cli';
+import { awsPlugin } from '@karmaniverous/get-dotenv/plugins';
+import { apiGatewayPlugin } from '@karmaniverous/aws-api-gateway-tools/get-dotenv';
+
+await createCli({
+  alias: 'my-cli',
+  importMetaUrl: import.meta.url,
+  compose: (program) => program.use(awsPlugin().use(apiGatewayPlugin())),
+})();
+```
+
+## Migrating to the next minor
+
+The get-dotenv integration is now isolated from the package root. Imports of `apiGatewayPlugin`, `apiGatewayPluginConfigSchema`, and `ApiGatewayPluginConfig` are breaking changes:
+
+```ts
+// Before
+import { apiGatewayPlugin } from '@karmaniverous/aws-api-gateway-tools';
+
+// Now
+import { apiGatewayPlugin } from '@karmaniverous/aws-api-gateway-tools/get-dotenv';
+```
+
+The root exports only the independent API Gateway tools and local `Logger` contract.
 
 ## AWS X-Ray capture (optional)
 
@@ -74,7 +109,7 @@ If you embed the plugin in your own get-dotenv host (or use the shipped CLI), yo
       "apiName": "$API_NAME",
       "stageName": "$STAGE_NAME",
       "templateExtension": "template",
-      "pullKeys": { "to": "env:private", "delimiter": ", " }
+      "pullKeys": { "to": "env:private", "delimiter": ", " },
     },
   },
 }

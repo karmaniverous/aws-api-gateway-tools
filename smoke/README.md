@@ -1,46 +1,27 @@
 # Smoke tests (AWS account required)
 
-These are end-to-end smoke tests that hit a real AWS account and exercise:
+These opt-in end-to-end tests hit a real AWS account and exercise:
 
 - CLI-flag driven execution (no config overlay)
-- Config overlay discovery + plugin config interpolation
-- `aws secrets push|pull|delete` behavior, including template bootstrap for dotenv edits
+- config overlay discovery and plugin config interpolation
+- `aws api-gateway flush-cache`
+- `aws api-gateway pull-keys`, including template bootstrap for dotenv edits
 
-## Configure (optional)
+## Configure
 
-Defaults are committed in `smoke/.env`:
+Safe defaults are committed in `smoke/.env` (`SMOKE_KEEP_ARTIFACTS=0`).
 
-- `SMOKE_AWS_PROFILE=JGS-SSO`
-- `SMOKE_KEEP_ARTIFACTS=0`
+1. Copy `smoke/.env.local.template` to `smoke/.env.local`.
+2. Set `SMOKE_AWS_PROFILE` to an authenticated profile.
+3. Set `SMOKE_APIGW=1`, an `API_ID` or `API_NAME`, `STAGE_NAME`, and space-delimited `API_KEY_NAMES`.
 
-To override locally:
-
-1. Copy `smoke/.env.local.template` to `smoke/.env.local`
-2. Edit values (this file is gitignored)
+The local file is gitignored and must never be committed.
 
 ## Run
-
-From repo root:
 
 ```bash
 npm run smoke:flags
 npm run smoke:overlay
 ```
 
-### Debugging output
-
-By default, smoke scripts print concise step-level progress (`push/pull/delete`) and avoid printing the full captured output of the spawned CLI.
-
-To see the spawned CLI’s full captured stdout/stderr (useful for debugging), set:
-
-```bash
-SMOKE_VERBOSE=1 npm run smoke:flags
-SMOKE_VERBOSE=1 npm run smoke:overlay
-```
-
-Notes:
-
-- Both scripts use AWS SSO login-on-demand. If your SSO session is expired, you may be prompted to login.
-- The smoke tests write `smoke/fixtures/aws-secrets/.env.local` during `pull` to validate template bootstrap and format preservation.
-  - It is deleted at the end by default.
-  - Set `SMOKE_KEEP_ARTIFACTS=1` to keep it for inspection.
+Set `SMOKE_VERBOSE=1` for captured child output. The scripts delete the generated `smoke/fixtures/aws-api-gateway/.env.local` by default; set `SMOKE_KEEP_ARTIFACTS=1` to retain it.

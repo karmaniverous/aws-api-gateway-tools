@@ -83,7 +83,6 @@ const commonAliases: Alias[] = [];
  * Externalize runtime dependencies and peers.
  */
 const commonInputOptions: InputOptions = {
-  input: 'src/index.ts',
   external: (id) => isExternal(id),
   plugins: [aliasPlugin({ entries: commonAliases }), ...commonPlugins],
 };
@@ -106,6 +105,10 @@ try {
  */
 export const buildLibrary = (dest: string): RollupOptions => ({
   ...commonInputOptions,
+  input: {
+    index: 'src/index.ts',
+    'get-dotenv/index': 'src/get-dotenv/index.ts',
+  },
   output: [
     {
       dir: `${dest}/mjs`,
@@ -118,9 +121,9 @@ export const buildLibrary = (dest: string): RollupOptions => ({
 /**
  * Build bundled .d.ts at dest/index.d.ts.
  */
-export const buildTypes = (dest: string): RollupOptions => ({
-  input: 'src/index.ts',
-  output: [{ file: `${dest}/index.d.ts`, format: 'esm' }],
+export const buildTypes = (input: string, output: string): RollupOptions => ({
+  input,
+  output: [{ file: output, format: 'esm' }],
   external: (id) => isExternal(id),
   plugins: [dtsPlugin()],
 });
@@ -130,8 +133,9 @@ const config: RollupOptions[] = [
   // Library output (ESM only)
   buildLibrary(outputPath),
 
-  // Type definitions output (single .d.ts)
-  buildTypes(outputPath),
+  // Type definitions for both public entry points.
+  buildTypes('src/index.ts', `${outputPath}/index.d.ts`),
+  buildTypes('src/get-dotenv/index.ts', `${outputPath}/get-dotenv/index.d.ts`),
 
   // CLI output.
   ...cliCommands.map<RollupOptions>((c) => ({
