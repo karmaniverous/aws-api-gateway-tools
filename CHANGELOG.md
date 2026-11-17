@@ -2,11 +2,23 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [0.2.0](https://github.com/karmaniverous/aws-api-gateway-tools/compare/0.1.3...0.2.0)
+
+- feat: adopt get-dotenv 8 package contract [`#11`](https://github.com/karmaniverous/aws-api-gateway-tools/pull/11)
+- [GH-8] feat: adopt get-dotenv 8 package contract [`45e1ea9`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/45e1ea916bee9281a55bf47a2c196c1b0724af65)
+- [GH-8] chore: eliminate npm install warnings [`040d2c0`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/040d2c06ad1311c9de0bd19407bc9073822a52ce)
+- [GH-8] refactor: remove stale smoke helpers [`927851c`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/927851c91c1e649db969bb11afdbb1fe07787954)
+- [GH-8] chore(deps): require released get-dotenv ^8.0.0 [`4938b83`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/4938b837e2bacca68d5f32e834e560a21969e118)
+- npm audit fix [`d783160`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/d783160cddc90bfe78047f7e4fbd5151c2818950)
+
 #### [0.1.3](https://github.com/karmaniverous/aws-api-gateway-tools/compare/0.1.2...0.1.3)
+
+> 15 July 2026
 
 - chore: update dependencies [`#9`](https://github.com/karmaniverous/aws-api-gateway-tools/pull/9)
 - cleanup [`3a2491f`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/3a2491f39fe07e9b5e4c2e14edaaf0945635b73a)
 - chore: add copilot review instructions [`ac96569`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/ac965699c7f0a74bea76d6c72c99a8e6ba814da2)
+- chore: release v0.1.3 [`b983a5d`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/b983a5d6b34f1cf602edb998f504d7a386b2a812)
 
 #### [0.1.2](https://github.com/karmaniverous/aws-api-gateway-tools/compare/0.1.1...0.1.2)
 
