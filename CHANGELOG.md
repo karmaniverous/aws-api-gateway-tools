@@ -2,7 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [0.3.0](https://github.com/karmaniverous/aws-api-gateway-tools/compare/0.2.0...0.3.0)
+
+- feat(pull-keys): --vars VAR=keyName pairs, parsed like root --vars [`#13`](https://github.com/karmaniverous/aws-api-gateway-tools/pull/13)
+- feat(pull-keys): --if-exists skips missing keys; exact-name match only [`#12`](https://github.com/karmaniverous/aws-api-gateway-tools/pull/12)
+- updated dependencies [`3da3710`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/3da371034b6d5e8f187189b163eaf25a90b69903)
+
 #### [0.2.0](https://github.com/karmaniverous/aws-api-gateway-tools/compare/0.1.3...0.2.0)
+
+> 17 November 2026
 
 - feat: adopt get-dotenv 8 package contract [`#11`](https://github.com/karmaniverous/aws-api-gateway-tools/pull/11)
 - [GH-8] feat: adopt get-dotenv 8 package contract [`45e1ea9`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/45e1ea916bee9281a55bf47a2c196c1b0724af65)
@@ -10,6 +18,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - [GH-8] refactor: remove stale smoke helpers [`927851c`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/927851c91c1e649db969bb11afdbb1fe07787954)
 - [GH-8] chore(deps): require released get-dotenv ^8.0.0 [`4938b83`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/4938b837e2bacca68d5f32e834e560a21969e118)
 - npm audit fix [`d783160`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/d783160cddc90bfe78047f7e4fbd5151c2818950)
+- chore: release v0.2.0 [`dcf3655`](https://github.com/karmaniverous/aws-api-gateway-tools/commit/dcf3655b89f455bbe67337b4aa4e64d06de13b3d)
 
 #### [0.1.3](https://github.com/karmaniverous/aws-api-gateway-tools/compare/0.1.2...0.1.3)
 

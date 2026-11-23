@@ -167,7 +167,7 @@
   },
   "type": "module",
   "types": "dist/index.d.ts",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "peerDependencies": {
     "@karmaniverous/get-dotenv": "^8.2.0"
   },
