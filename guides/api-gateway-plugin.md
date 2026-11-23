@@ -89,11 +89,14 @@ Flags:
 - `--delimiter <string>` (default `", "`): delimiter used to join values
 - `--to <scope:privacy>` (default `env:private`): destination dotenv selector
 - `--template-extension <string>` (default `template`): bootstrap extension
+- `--if-exists` (config `pullKeys.ifExists`, default `false`): skip missing keys with a warning instead of failing the whole command
 
 Key behavior:
 
 - Key names are expanded at action time (per name).
-- Missing keys fail the whole command.
+- Key lookup requires an **exact** name match. AWS API Gateway's `GetApiKeys` `nameQuery` is a _prefix_ match, so a key named `api-user-v1-spokane-foo` will no longer be returned (and silently used) when you ask for `api-user-v1-spokane`.
+- Missing keys fail the whole command, unless `--if-exists` is set.
+- With `--if-exists`, each missing key (by exact name) prints a warning (`API key '<name>' not found: skipping`) and is omitted from the joined value; every other failure (credentials, throttling, an ambiguous exact match, or a key with no value) still fails the command. If **none** of the requested keys exist, the target dotenv variable is left untouched (not written or blanked).
 - Dotenv editing is format-preserving (winner-path selection) and supports template bootstrap.
 
 ## Related docs

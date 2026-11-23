@@ -40,6 +40,7 @@
     "@vitest/eslint-plugin": "^1.6.28",
     "auto-changelog": "^2.7.0",
     "aws-xray-sdk": "^3.12.0",
+    "commander": "^15.1.0",
     "eslint": "^10.15.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.7",

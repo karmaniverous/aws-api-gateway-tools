@@ -227,13 +227,23 @@ export class AwsApiGatewayTools implements ApiGatewayPort {
   }
 
   /**
-   * Convenience: retrieve API key values by names (strict missing/ambiguous errors).
+   * Convenience: retrieve API key values by names.
+   *
+   * By default, missing or ambiguous keys fail the whole operation. When
+   * `ifExists` is set, a missing key (no exact name match) is reported via
+   * `onMissing` and omitted from the result instead of failing; every other
+   * error (credentials, throttling, ambiguity, missing value) still fails.
    */
   async getApiKeyValuesByNames(opts: {
     keyNames: string[];
+    ifExists?: boolean;
+    onMissing?: (keyName: string) => void;
   }): Promise<string[]> {
-    const { keyNames } = opts;
+    const { keyNames, ifExists, onMissing } = opts;
     if (!keyNames.length) throw new Error('keyNames is required');
-    return await getApiKeyValuesByNames(this, keyNames);
+    return await getApiKeyValuesByNames(this, keyNames, {
+      ifExists,
+      onMissing,
+    });
   }
 }

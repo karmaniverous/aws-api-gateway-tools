@@ -109,7 +109,7 @@ If you embed the plugin in your own get-dotenv host (or use the shipped CLI), yo
       "apiName": "$API_NAME",
       "stageName": "$STAGE_NAME",
       "templateExtension": "template",
-      "pullKeys": { "to": "env:private", "delimiter": ", " },
+      "pullKeys": { "to": "env:private", "delimiter": ", ", "ifExists": false },
     },
   },
 }

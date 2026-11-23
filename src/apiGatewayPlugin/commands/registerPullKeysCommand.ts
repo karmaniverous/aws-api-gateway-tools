@@ -2,7 +2,11 @@
  * Requirements addressed:
  * - Provide `aws api-gateway pull-keys`.
  * - Accept `--key-names <string...>` (space-delimited list).
- * - Missing keys fail the whole command.
+ * - Missing keys fail the whole command, unless `--if-exists` is set.
+ * - `--if-exists` (config: `pullKeys.ifExists`, default `false`): skip
+ *   missing keys (exact-name match only) with a warning instead of failing;
+ *   if none of the requested keys exist, leave the target variable
+ *   untouched.
  * - Join values by `--delimiter` (default: ", ").
  * - Write result to a single dotenv variable (`--variable-name`, default: API_KEYS)
  *   in the target selected by `--to <scope:privacy>` (default env:private).
@@ -87,6 +91,16 @@ export const registerPullKeysCommand = ({
         },
       ),
     )
+    .addOption(
+      plugin.createPluginDynamicOption(
+        pull,
+        '--if-exists',
+        (_helpCfg, pluginCfg) => {
+          const def = pluginCfg.pullKeys?.ifExists ? 'true' : 'false';
+          return `skip missing API keys (exact-name match only) with a warning instead of failing; leaves the target variable untouched if none are found (default: ${def})`;
+        },
+      ),
+    )
     .action(async (opts, command) => {
       const logger = console;
       const ctx = cli.getCtx();
@@ -122,6 +136,7 @@ export const registerPullKeysCommand = ({
       const variableName =
         opts.variableName ?? cfg.pullKeys?.variableName ?? 'API_KEYS';
       const delimiter = opts.delimiter ?? cfg.pullKeys?.delimiter ?? ', ';
+      const ifExists = opts.ifExists ?? cfg.pullKeys?.ifExists ?? false;
 
       const region = getAwsRegion(ctx);
       const tools = new AwsApiGatewayTools({
@@ -133,7 +148,21 @@ export const registerPullKeysCommand = ({
       logger.info(
         `Retrieving ${String(keyNames.length)} API key(s) from API Gateway...`,
       );
-      const values = await tools.getApiKeyValuesByNames({ keyNames });
+      const values = await tools.getApiKeyValuesByNames({
+        keyNames,
+        ifExists,
+        onMissing: (name) => {
+          logger.warn(`API key '${name}' not found: skipping`);
+        },
+      });
+
+      if (ifExists && !values.length) {
+        logger.info(
+          'No requested API keys were found; leaving target variable untouched.',
+        );
+        return;
+      }
+
       const joined = values.join(delimiter);
 
       const templateExtension =

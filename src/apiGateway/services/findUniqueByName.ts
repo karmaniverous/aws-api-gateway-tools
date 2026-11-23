@@ -1,15 +1,25 @@
 /**
  * Requirements addressed:
  * - Provide deterministic, testable selection rules for name-based AWS resources.
- * - Prefer exact name match; otherwise accept a single result; otherwise error.
+ * - Require an exact name match; never fall back to "the only item returned",
+ *   since callers may query AWS with a prefix match (e.g. API Gateway's
+ *   `GetApiKeys` `nameQuery`), where a single returned item is not
+ *   necessarily the requested name.
+ * - Let callers customize the "not found" error (e.g. a typed,
+ *   `ApiKeyNotFoundError` for API key lookups) while keeping a sane default
+ *   for other callers (e.g. REST API name resolution).
  */
 
 export const findUniqueByName = <T extends { name?: string }>(opts: {
   items: T[];
   name: string;
   label: string;
+  /**
+   * Optional factory for the "not found" error. Defaults to a plain `Error`.
+   */
+  notFound?: (name: string) => Error;
 }): T => {
-  const { items, name, label } = opts;
+  const { items, name, label, notFound } = opts;
 
   const exact = items.filter((i) => i.name === name);
   if (exact.length === 1) return exact[0];
@@ -19,10 +29,7 @@ export const findUniqueByName = <T extends { name?: string }>(opts: {
     );
   }
 
-  if (items.length === 1) return items[0];
-  if (!items.length) throw new Error(`Unable to find ${label} '${name}'.`);
-
-  throw new Error(
-    `Ambiguous ${label}: multiple results match query for '${name}'.`,
-  );
+  throw notFound
+    ? notFound(name)
+    : new Error(`Unable to find ${label} '${name}'.`);
 };
