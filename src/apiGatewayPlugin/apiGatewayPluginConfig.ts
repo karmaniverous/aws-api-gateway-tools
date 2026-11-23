@@ -60,6 +60,11 @@ export const apiGatewayPluginConfigSchema = z.object({
        * Default destination selector `(global|env):(public|private)`, e.g. `env:private`.
        */
       to: z.string().optional(),
+      /**
+       * When `true`, skip (with a warning) API keys that don't exist by
+       * exact name instead of failing the whole command. Default: `false`.
+       */
+      ifExists: z.boolean().optional(),
     })
     .optional(),
 });

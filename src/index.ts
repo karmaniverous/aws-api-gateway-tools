@@ -15,6 +15,7 @@ export {
   AwsApiGatewayTools,
   type AwsApiGatewayToolsOptions,
 } from './apiGateway/AwsApiGatewayTools';
+export { ApiKeyNotFoundError } from './apiGateway/errors';
 export type {
   ApiGatewayPort,
   ApiKeySummary,

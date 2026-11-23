@@ -14,10 +14,17 @@ describe('apiGatewayPluginConfig', () => {
         variableName: 'API_KEYS',
         delimiter: ', ',
         to: 'env:private',
+        ifExists: true,
       },
     });
     expect(cfg.apiId).toBe('$API_ID');
     expect(cfg.pullKeys?.delimiter).toBe(', ');
+    expect(cfg.pullKeys?.ifExists).toBe(true);
+  });
+
+  it('defaults pullKeys.ifExists to undefined (falsy) when omitted', () => {
+    const cfg = apiGatewayPluginConfigSchema.parse({});
+    expect(cfg.pullKeys?.ifExists).toBeUndefined();
   });
 
   it('ignores unknown keys via schema (strip default)', () => {
