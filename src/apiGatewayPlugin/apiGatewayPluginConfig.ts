@@ -65,6 +65,15 @@ export const apiGatewayPluginConfigSchema = z.object({
        * exact name instead of failing the whole command. Default: `false`.
        */
       ifExists: z.boolean().optional(),
+      /**
+       * Default `VAR=keyName` mapping for `--vars`: dotenv variable name to
+       * the API key NAME(s) (not values) whose values are written to it
+       * (joined by `delimiter` when more than one). Conflicts with
+       * `keyNames`/`variableName`.
+       */
+      vars: z
+        .record(z.string(), z.union([z.string(), z.array(z.string())]))
+        .optional(),
     })
     .optional(),
 });

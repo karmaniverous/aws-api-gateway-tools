@@ -53,9 +53,12 @@ When you need AWS functionality not wrapped by this package, use the fully confi
 ```bash
 aws-api-gateway-tools aws api-gateway flush-cache
 aws-api-gateway-tools aws api-gateway pull-keys --key-names '$API_KEY_A' '$API_KEY_B'
+aws-api-gateway-tools aws api-gateway pull-keys --vars SELF_API_KEY=my-key OTHER_API_KEY=other-key --if-exists
 ```
 
 Notes:
+
+- `pull-keys --vars VAR=keyName ...` writes several variables in one call; pairs follow the root `--vars` syntax. See the [plugin guide](guides/api-gateway-plugin.md).
 
 - If get-dotenv is absent, the bin exits 1 and prints local, global, and `npx` installation routes.
 - Relevant flags support `$VAR` expansion evaluated at action time against `{ ...process.env, ...ctx.dotenv }` (`ctx.dotenv` wins).

@@ -80,12 +80,13 @@ If `api-id` resolves, the plugin flushes directly; otherwise it resolves the RES
 
 ## `aws api-gateway pull-keys`
 
-Retrieves one or more API key values and writes them into a dotenv variable as a delimiter-joined string.
+Retrieves one or more API key values and writes them into dotenv variables: either one variable holding several keys (`--key-names` / `--variable-name`), or several variables at once (`--vars`).
 
 Flags:
 
-- `--key-names <string...>` (required): space-delimited list of API key names
+- `--key-names <string...>`: space-delimited list of API key names (required unless `--vars` or config supplies keys)
 - `--variable-name <string>` (default `API_KEYS`): dotenv variable name to write
+- `--vars <pairs...>` (config `pullKeys.vars`): `VAR=keyName` pairs. Each writes the value of the API key **named** `keyName` to the dotenv variable `VAR`. Not combinable with `--key-names` or `--variable-name`.
 - `--delimiter <string>` (default `", "`): delimiter used to join values
 - `--to <scope:privacy>` (default `env:private`): destination dotenv selector
 - `--template-extension <string>` (default `template`): bootstrap extension
@@ -98,6 +99,21 @@ Key behavior:
 - Missing keys fail the whole command, unless `--if-exists` is set.
 - With `--if-exists`, each missing key (by exact name) prints a warning (`API key '<name>' not found: skipping`) and is omitted from the joined value; every other failure (credentials, throttling, an ambiguous exact match, or a key with no value) still fails the command. If **none** of the requested keys exist, the target dotenv variable is left untouched (not written or blanked).
 - Dotenv editing is format-preserving (winner-path selection) and supports template bootstrap.
+
+### `--vars`
+
+`--vars` pairs follow the root `--vars` syntax: pairs are separated by whitespace and split at the first `=`, or by whatever `--vars-delimiter`, `--vars-delimiter-pattern`, `--vars-assignor` or `--vars-assignor-pattern` the root sets. Each argument is dotenv-expanded first, so one variable can carry the whole map:
+
+```bash
+# SERVICE_API_KEY_MAP="BENEFICIARY_API_KEY=api-beneficiary-v1-dev MERCHANT_API_KEY=api-merchant-v1-dev"
+aws-api-gateway-tools aws api-gateway pull-keys --vars '$SERVICE_API_KEY_MAP' --if-exists
+```
+
+- A variable named more than once collects its keys, in order, and its value is joined with `--delimiter`: `--vars X=a X=b` is the same as `--variable-name X --key-names a b`.
+- All variables are written in one dotenv edit.
+- With `--if-exists`, a missing key is dropped from its variable, a variable whose keys are **all** missing is left untouched, and the command ends with a summary such as `2 of 5 API keys not found.`
+- A pair without a key name (`A` or `A=`), or arguments that yield no pairs, fail the command.
+- In config, `pullKeys.vars` maps a variable to one key name or an array of them (each expanded), e.g. `{ "SELF_API_KEYS": ["key-a", "key-b"], "OTHER": "key-c" }`. It can't be combined with `pullKeys.keyNames` or `pullKeys.variableName`. Any CLI `--vars`, `--key-names` or `--variable-name` takes precedence over it.
 
 ## Related docs
 
